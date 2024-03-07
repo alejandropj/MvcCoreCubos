@@ -1,0 +1,73 @@
+﻿@{
+    List<Cubo> carrito =
+                memoryCache.Get<List<Cubo>>("CARRITO");
+    int total = memoryCache.Get<int>("TOTAL");
+}
+
+@{
+    ViewData["Title"] = "Carrito";
+}
+
+<h1>Lista del Carrito</h1>
+
+
+@* <p>
+    <a asp-controller="Empleados"
+       asp-action="SessionEmpleadosOk">
+        
+    </a>
+</p> *@
+
+@if (carrito == null)
+{
+    <h2 style="color:red">
+        No tienes nada en el carrito
+    </h2>
+}
+
+@if (carrito != null)
+{
+    <table class="table table-bordered table-danger">
+        <thead>
+            <tr>
+                <th>ID_CUBO</th>
+                <th>NOMBRE</th>
+                <th>MODELO</th>
+                <th>MARCA</th>
+                <th>IMAGEN</th>
+                <th>PRECIO</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in carrito)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdCubo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Modelo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Marca)
+                    </td>
+                    <td>
+                        <img src="@item.Imagen" style="width:150px"/>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Precio)
+                    </td>
+                    <td>
+                        <a asp-controller="Cubo" asp-action="CarritoCubos" asp-route-ideliminar="@item.IdCubo">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <h1>Total: @total</h1>
+    <a asp-action="ComprarCubos">Realizar compra</a>
+}
